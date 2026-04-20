@@ -1,0 +1,6 @@
+COLUMN TABLE demo_Teachers (
+  ID INTEGER NOT NULL,
+  name NVARCHAR(5000),
+  location NVARCHAR(5000),
+  PRIMARY KEY(ID)
+)

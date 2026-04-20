@@ -1,0 +1,5 @@
+VIEW MyService_Students AS SELECT
+  Students_0.ID,
+  Students_0.name,
+  Students_0.location
+FROM demo_Students AS Students_0

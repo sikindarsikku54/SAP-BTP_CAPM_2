@@ -1,0 +1,45 @@
+{
+  "name": "xsuaa-cap",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@cap-js/hana": "^2",
+    "@cap-js/sqlite": "^2.2.0",
+    "@sap/cds": "^9.8.4",
+    "@sap/xssec": "^4",
+    "sqlite": "^5.1.1"
+  },
+  "devDependencies": {
+    "@sap/cds-dk": "^9"
+  },
+  "scripts": {
+    "start": "npx cds-serve"
+  },
+  "cds": {
+    "server": {
+      "index": true
+    },
+    "requires": {
+       "db": {
+          "kind": "hana"
+        },
+      "[development]": {
+       
+        "auth": {
+          "kind": "mocked",
+          "users": {
+            "admin": {
+              "roles": [
+                "admin"
+              ],
+              "password": "123"
+            }
+          }
+        }
+      },
+      "auth": {
+        "kind": "xsuaa"
+      }
+    }
+  }
+}
