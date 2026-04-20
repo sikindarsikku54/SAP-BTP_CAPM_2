@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Royal Vehicle Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+
+  <script>
+    (function () {
+      const host = window.location.hostname;
+      window.APP_BASE = host.includes("applicationstudio.cloud.sap") ? "/router" : "";
+      if (localStorage.getItem("loggedIn") !== "true") {
+        window.location.replace(`${window.APP_BASE}/auth/login.html`);
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <div class="header">
+    <img src="images/logo.png" class="logo">
+    <div class="title">ROYAL VEHICLE DASHBOARD</div>
+  </div>
+  <!-- TOP RIGHT BUTTONS -->
+  <div style="position:absolute; right:20px; top:5px;">
+    <button onclick="openExplorer()" class="ddo">🌍 Explorer</button>
+    <button onclick="logout()" class="ddo">Logout</button>
+  </div>
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-overlay">
+      <h1>Explore Your Data</h1>
+      <p>Customers • Dealers • Vehicles • Orders</p>
+    </div>
+  </div>
+  <!-- BUTTONS -->
+  <div class="buttons">
+    <button onclick="loadVehicles()">Vehicles</button>
+    <button onclick="loadStates()">States</button>
+    <button onclick="loadCustomers()">Customers</button>
+    <button onclick="loadDealers()">Dealers</button>
+    <button onclick="loadOrders()">Orders</button>
+  </div>
+  <!-- DATA -->
+  <div id="data" class="data-section">
+    <div class="loading-center">
+      🚀 Click a button to load data...
+    </div>
+  </div>
+  <!-- FORM -->
+  <div class="form-container">
+    <h2>Add / Update Vehicle</h2>
+    <input type="text" id="model" placeholder="Model (GT / RE)">
+    <input type="number" id="price" placeholder="New Price">
+    <input type="number" id="stateId" placeholder="State ID">
+    <input type="text" id="dealerId" placeholder="Dealer ID">
+    <button onclick="createVehicle()">Create</button>
+    <button onclick="updateVehicle()">Update</button>
+  </div>
+
+  <!-- MAIN SCRIPT -->
+  <script src="script.js"></script>
+
+  <!-- ✅ NAV FUNCTIONS using window.APP_BASE set in head -->
+  <script>
+    function openExplorer() {
+      window.location.href = `${window.APP_BASE}/explorer/index.html`;
+    }
+    function logout() {
+      localStorage.removeItem("loggedIn");
+      localStorage.removeItem("user");
+      window.location.href = `${window.APP_BASE}/auth/login.html`;
+    }
+  </script>
+</body>
+
+</html>

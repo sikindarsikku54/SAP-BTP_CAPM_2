@@ -1,0 +1,67 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI'; }
+body { background: black; color: white; }
+.navbar { padding: 12px 20px; background: black; border-bottom: 1px solid #222; }
+.logo-section { display: flex; align-items: center; gap: 10px; }
+.logo-section img { height: 40px; }
+.logo-section h1 { font-size: 18px; letter-spacing: 1px; }
+.hero {
+  height: 35vh; background: url("assets/bg.jpg") center/cover no-repeat;
+  display: flex; align-items: center; justify-content: center;
+}
+.overlay {
+  background: rgba(0,0,0,0.6); padding: 20px; border-radius: 10px;
+  text-align: center; width: 90%; max-width: 500px;
+}
+.overlay h2 { font-size: 24px; margin-bottom: 8px; }
+.overlay p { color: #ccc; margin-bottom: 12px; font-size: 14px; }
+.search-box { display: flex; justify-content: center; }
+.search-box input {
+  padding: 10px; width: 100%; max-width: 220px;
+  border-radius: 8px 0 0 8px; border: none; font-size: 14px;
+  background: #eee; color: black;
+}
+.search-box button {
+  padding: 10px 15px; background: #e60023; border: none;
+  color: white; border-radius: 0 8px 8px 0; font-size: 14px; cursor: pointer;
+}
+.nav-row {
+  display: flex; justify-content: space-between;
+  padding: 12px 20px; background: black;
+}
+.nav-row button {
+  padding: 8px 14px; background: #e60023; border: none;
+  color: white; border-radius: 6px; cursor: pointer; font-size: 14px;
+}
+.results {
+  padding: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+.card {
+  background: #1a1a1a; padding: 15px; border-radius: 12px;
+  cursor: pointer; transition: 0.3s;
+}
+.card:hover { background: #2a2a2a; transform: scale(1.02); }
+.card h3 { color: #e60023; margin-bottom: 8px; font-size: 15px; }
+.card p { font-size: 13px; margin: 4px 0; }
+.map { color: gold; cursor: pointer; }
+.complete { grid-column: 1 / -1; text-align: center; margin-top: 60px; padding: 20px; }
+.complete h1 { color: #e60023; font-size: 22px; }
+@media (max-width: 600px) {
+  .logo-section h1 { font-size: 14px; }
+  .logo-section img { height: 30px; }
+  .hero { height: 28vh; }
+  .overlay h2 { font-size: 18px; }
+  .overlay { padding: 12px; }
+  .search-box input { max-width: 150px; font-size: 13px; }
+  .results { grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
+  .card { padding: 10px; }
+  .card h3 { font-size: 13px; }
+  .card p { font-size: 11px; }
+  .nav-row { padding: 8px 12px; }
+  .nav-row button { font-size: 12px; padding: 6px 10px; }
+}
+@media (max-width: 380px) {
+  .results { grid-template-columns: 1fr; }
+}

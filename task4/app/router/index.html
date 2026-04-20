@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Loading...</title>
+  <script>
+    (function () {
+      const host = window.location.hostname;
+      if (host.includes("applicationstudio.cloud.sap")) {
+        if (localStorage.getItem("loggedIn") === "true") {
+          window.location.replace("/router/dashboard/index.html");
+        } else {
+          window.location.replace("/router/auth/login.html");
+        }
+      } else {
+        if (localStorage.getItem("loggedIn") === "true") {
+          window.location.replace("dashboard/index.html");
+        } else {
+          window.location.replace("auth/login.html");
+        }
+      }
+    })();
+  </script>
+</head>
+<body>
+  <h2 style="text-align:center; margin-top:100px;">🔄 Redirecting...</h2>
+</body>
+</html>

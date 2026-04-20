@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Royal Explorer</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- ✅ Auth guard - runs first -->
+    <script>
+        (function () {
+            const host = window.location.hostname;
+            const BASE = host.includes("applicationstudio.cloud.sap") ? "/router" : "";
+            if (!localStorage.getItem("user")) {
+                window.location.replace(`${BASE}/auth/login.html`);
+            }
+        })();
+    </script>
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="logo-section">
+            <img src="assets/logo.png">
+            <h1>ROYAL EXPLORER</h1>
+        </div>
+    </header>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="overlay">
+            <h2>Explore Districts</h2>
+            <p>Discover places like a rider explores roads</p>
+            <div class="search-box">
+                <input id="searchInput" placeholder="Enter State (e.g Karnataka)">
+                <button onclick="search()">Search</button>
+            </div>
+        </div>
+    </section>
+    <!-- NAV ROW -->
+    <div class="nav-row">
+        <button onclick="goBack()">⬅ Back</button>
+        <button onclick="goForward()">Forward ➡</button>
+    </div>
+    <!-- RESULTS -->
+    <section id="results" class="results"></section>
+
+    <!-- ✅ Scripts at bottom -->
+    <script src="app.js"></script>
+</body>
+
+</html>
