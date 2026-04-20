@@ -1,0 +1,5 @@
+ID,model,status,dealer,createdAt,createdBy,modifiedAt,modifiedBy
+0f3e2a6a-1c4b-4c8e-9c9b-111111111111,BMW X5,Pending,dealer1@cars.com,2026-03-01T10:00:00Z,admin,2026-03-01T10:00:00Z,admin
+1a7d9b3c-2f6e-4a7b-8d8c-222222222222,Audi A6,Approved,dealer2@cars.com,2026-03-01T11:00:00Z,admin,2026-03-02T09:30:00Z,admin
+2b8c1d4e-3a7f-4b6c-9e9d-333333333333,Tesla Model 3,Pending,dealer3@cars.com,2026-03-02T08:15:00Z,admin,2026-03-02T08:15:00Z,admin
+3c9d2e5f-4b8a-4c5d-7f7e-444444444444,Mercedes C300,Rejected,dealer4@cars.com,2026-03-02T12:45:00Z,admin,2026-03-03T07:20:00Z,admin
