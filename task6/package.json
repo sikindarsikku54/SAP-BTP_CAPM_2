@@ -1,0 +1,32 @@
+{
+  "name": "cap-google-maps",
+  "version": "1.0.0",
+  "description": "CAP Google Maps Integration",
+  "dependencies": {
+    "@cap-js/hana": "^2",
+    "@sap/cds": "^9.8.4",
+    "@sap/xssec": "^4",
+    "axios": "^1.13.6",
+    "express": "^4",
+    "sqlite": "^5.1.1"
+  },
+  "scripts": {
+    "start": "npx cds-serve"
+  },
+  "devDependencies": {
+    "@sap/cds-dk": "^9.8.2"
+  },
+  "cds": {
+    "server": {
+      "index": true
+    },
+    "requires": {
+      "db": {
+        "kind": "hana"
+      },
+      "[production]": {
+        "auth": "dummy"
+      }
+    }
+  }
+}

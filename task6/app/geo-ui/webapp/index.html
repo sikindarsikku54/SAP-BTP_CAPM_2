@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Geo Finder</title>
+
+<script id="sap-ui-bootstrap"
+  src="https://ui5.sap.com/resources/sap-ui-core.js"
+  data-sap-ui-theme="sap_horizon"
+  data-sap-ui-libs="sap.m"
+  data-sap-ui-async="true">
+</script>
+
+<style>
+body {
+  margin: 0;
+  background: linear-gradient(135deg,#eef2f7,#dce6f7);
+  font-family: Arial;
+}
+
+/* Container */
+.container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  margin-left: 200px;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(90deg,#1fd8de,#d40091);
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 15px;
+  margin-left: 300px;
+  margin-top: 20px;
+}
+
+/* Buttons evenly spaced */
+.buttonRow {
+  display: flex;
+  justify-content: center;   /* centered */
+  gap: 15px;                 /* ✅ space between buttons */
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 50px;
+}
+
+/* Map */
+.map iframe {
+  width: 100%;
+  height: 350px;
+  border: none;
+  border-radius: 12px;
+}
+
+/* Horizontal layout for Map + Favorites */
+.horizontalLayout {
+  display: flex;
+  gap: 20px;
+  margin-left: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .horizontalLayout {
+    flex-direction: column;
+  }
+}
+</style>
+
+<script>
+sap.ui.getCore().attachInit(function () {
+
+let current = null;
+let favs = JSON.parse(localStorage.getItem("favs") || "[]");
+let timer;
+
+// UI Elements
+const input = new sap.m.Input({ placeholder:"Search city..." });
+
+const list = new sap.m.List({ visible:false });
+
+const map = new sap.ui.core.HTML();
+
+const favList = new sap.m.List({ headerText:"" });
+
+// 🔍 Search
+function search(q){
+  if(!q){
+    sap.m.MessageToast.show("Enter city");
+    return;
+  }
+
+  fetch("https://nominatim.openstreetmap.org/search?format=json&q=" + q)
+  .then(r=>r.json())
+  .then(d=>{
+    list.removeAllItems();
+
+    if(!d.length){
+      sap.m.MessageToast.show("No results");
+      return;
+    }
+
+    d.slice(0,5).forEach(i=>{
+      list.addItem(new sap.m.StandardListItem({
+        title:i.display_name,
+        type:"Active",
+        press:()=>show(i)
+      }));
+    });
+
+    list.setVisible(true);
+  });
+}
+
+// 📍 Show location
+function show(d){
+  current = d;
+  list.setVisible(false);
+
+  let url = `https://www.google.com/maps?q=${d.lat},${d.lon}&output=embed`;
+
+  map.setContent(`<div class="map">
+    <iframe src="${url}"></iframe>
+  </div>`);
+}
+
+// ⌨️ Debounce
+input.attachLiveChange(e=>{
+  clearTimeout(timer);
+  let q = e.getParameter("newValue");
+  if(q.length < 2) return;
+  timer = setTimeout(()=>search(q),300);
+});
+
+// 🔘 Buttons
+const searchBtn = new sap.m.Button({
+  text:"Search",
+  type:"Emphasized",
+  press:()=>search(input.getValue())
+});
+
+const gpsBtn = new sap.m.Button({
+  text:"My Location",
+  press:()=>{
+    navigator.geolocation.getCurrentPosition(pos=>{
+      show({
+        lat:pos.coords.latitude,
+        lon:pos.coords.longitude,
+        display_name:"My Location"
+      });
+    });
+  }
+});
+
+const saveBtn = new sap.m.Button({
+  text:"Save",
+  press:()=>{
+    if(!current){
+      sap.m.MessageToast.show("Search location first");
+      return;
+    }
+
+    favs.unshift(current);
+    localStorage.setItem("favs", JSON.stringify(favs));
+    loadFavs();
+    sap.m.MessageToast.show("Saved");
+  }
+});
+
+// ⭐ Favorites
+function loadFavs(){
+  favList.removeAllItems();
+
+  if(favs.length === 0){
+    favList.addItem(new sap.m.StandardListItem({
+      title:"No favorites yet"
+    }));
+    return;
+  }
+
+  favs.forEach(f=>{
+    favList.addItem(new sap.m.StandardListItem({
+      title:f.display_name,
+      type:"Active",
+      press:()=>show(f)
+    }));
+  });
+}
+
+loadFavs();
+
+// Layout
+const page = new sap.m.Page({
+  content:[
+    new sap.m.VBox({
+      class:"container",
+      items:[
+
+        /* 🔍 Search Card */
+        new sap.m.VBox({
+          class:"card",
+          items:[
+            new sap.m.Text({text:"Geo Finder"}).addStyleClass("header"),
+            input,
+            new sap.m.HBox({
+              items:[searchBtn,gpsBtn,saveBtn],
+              class:"buttonRow"
+            }),
+            list
+          ]
+        }),
+
+        /* 🔥 Horizontal Section */
+        new sap.m.HBox({
+          class:"horizontalLayout",
+          items:[
+
+            /* 🗺️ Map */
+            new sap.m.VBox({
+              class:"card",
+              width:"50%",
+              items:[
+                new sap.m.Text({text:"Map View"}).addStyleClass("header"),
+                map
+              ]
+            }),
+
+            /* ⭐ Favorites */
+            new sap.m.VBox({
+              class:"card",
+              width:"50%",
+              items:[
+                new sap.m.Text({text:"Favorites"}).addStyleClass("header"),
+                favList
+              ]
+            })
+
+          ]
+        })
+
+      ]
+    })
+  ]
+});
+
+new sap.m.App({pages:[page]}).placeAt("content");
+
+});
+</script>
+</head>
+
+<body class="sapUiBody" id="content"></body>
+</html>
