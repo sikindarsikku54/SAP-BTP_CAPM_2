@@ -1,0 +1,56 @@
+{
+  "name": "view-pro",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "dependencies": {
+    "@cap-js/hana": "^2",
+    "@sap/cds": "^9.8.3",
+    "@sap/hana-client": "^2",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^2",
+    "@sap/cds-dk": "^9"
+  },
+  "scripts": {
+    "start": "npx cds-serve"
+  },
+  "cds": {
+    "requires": {
+      "[development]": {
+        "db": {
+          "kind": "sqlite"
+        },
+        "auth": {
+          "kind": "mocked",
+          "users": {
+            "sikindar": {
+              "roles": [
+                "support"
+              ],
+              "password": "123"
+            },
+            "sikku": {
+              "roles": [
+                "support"
+              ],
+              "password": "123"
+            },
+            "admin": {
+              "roles": [
+                "admin"
+              ],
+              "password": "123"
+            }
+          }
+        }
+      },
+      "[production]": {
+        "db": {
+          "kind": "hana"
+        },
+        "auth": "xsuaa"
+      }
+    }
+  }
+}
