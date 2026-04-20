@@ -1,0 +1,2 @@
+shipment_id,daily_shipments,shipment_date,carrier,tracking_number,shipment_status,customer_customer_id,payment_payment_id
+1,4,27-2-2026,sound box,123,pending,1,1
